@@ -8,7 +8,12 @@ app.use(express.json());
 app.use(cors());
 
 const commentsRoute = require("./routers/routes/commentsRoute");
+const tagssRoute = require("./routers/routes/tagsRoute");
+
+////////////////////////////
+
 app.use("/comments", commentsRoute);
+app.use("/tags", tagssRoute);
 
 ////////////////////////////
 const Port = 30252;

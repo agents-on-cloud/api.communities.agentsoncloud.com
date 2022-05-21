@@ -1,5 +1,9 @@
 npx sequelize-cli model:generate --name Users --attributes username:string,name:string,phone:string,age:integer
 
+npx sequelize-cli model:generate --name Tags --attributes uuid:string,name:string,type:string,link_to:string,status:string
+
+
+
 npx sequelize-cli seed:generate --name Users
 npx sequelize-cli db:seed:all
 
