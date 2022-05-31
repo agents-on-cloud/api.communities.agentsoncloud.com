@@ -9,7 +9,15 @@ const getAllTags = async (req, res) => {
         status: "latest",
       },
     });
-    res.status(200).json(tags);
+    const response = [];
+    const obj = {};
+    for (let i = 0; i < tags.length; i++) {
+      if (!obj[tags[i].dataValues.name]) {
+        response.push(tags[i].dataValues);
+        obj[tags[i].dataValues.name] = true;
+      }
+    }
+    res.status(200).json(response);
   } catch (error) {
     res.status(500).json("error");
   }
@@ -21,7 +29,7 @@ const addTag = async (req, res) => {
     const Genuuid = uuid.v4();
     const status = "latest";
     const newTag = await sequelize.models.Tags.create({
-      uuid : Genuuid,
+      uuid: Genuuid,
       name,
       type,
       link_to,
@@ -33,7 +41,44 @@ const addTag = async (req, res) => {
   }
 };
 
+const getTagsByIdAndType = async (req, res) => {
+  try {
+    const { id, type } = req.params;
+    const tags = await sequelize.models.Tags.findAll({
+      where: {
+        status: "latest",
+        type,
+        link_to: id,
+      },
+    });
+    res.status(200).json(tags);
+  } catch (error) {
+    res.status(500).json("error");
+  }
+};
+
+const deleteTag = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const tags = await sequelize.models.Tags.update(
+      {
+        status: "deleted",
+      },
+      {
+        where: {
+          uuid: id,
+        },
+      }
+    );
+    res.status(200).json("deleted");
+  } catch (error) {
+    res.status(500).json("error");
+  }
+};
+
 module.exports = {
   getAllTags,
   addTag,
+  getTagsByIdAndType,
+  deleteTag,
 };
