@@ -1,8 +1,13 @@
 {
   "development": {
-    "dialect": "sqlite",
-    "storage": "database.sqlite3",
+    "username": "dev",
+    "password": "Dev@r00t",
+    "database": "Communities",
+    "host": "192.81.217.171",
+    "dialect": "mysql",
+    "port":"50062",
     "logging": false
+
   },
   "test": {
     "dialect": "sqlite",
