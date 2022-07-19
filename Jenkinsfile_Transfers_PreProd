@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+      options {
+        ansiColor('xterm')
+    }
+    stages {
+          stage('transfers') {
+            steps {
+            sshPublisher(
+            continueOnError: false, failOnError: true,
+            publishers: [
+                sshPublisherDesc(
+                configName: "preprod server",
+                verbose: true,
+                transfers: [
+                 sshTransfer(
+                        execCommand:"cd /var/www/ && rm -rf api.communities.agentsoncloud.com"
+                    ),
+                    sshTransfer(
+                        sourceFiles: "**/*",
+                        remoteDirectory: "api.communities.agentsoncloud.com",
+                        execCommand:"cd /var/www/api.communities.agentsoncloud.com && sudo npm i && pm2 start"
+                )
+             ])
+            ])
+            }
+        }
+    }
+     post {
+        always {
+           slackSend channel: "#transfers-jenkins", message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} : Started . ",color:"good"
+        }
+        success {
+          slackSend channel: "#transfers-jenkins", message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} : Build Finshed Success . ",color:"good"
+        }
+        unstable {
+           slackSend channel: "#transfers-jenkins", message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} : Build have Error  . ", color:"warning"
+        }
+        failure {
+            slackSend channel: "#transfers-jenkins", message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} : Failure Build  . ",color:"danger"
+        }
+        changed {
+             echo 'Things were different before...'
+        }
+    }
+}
