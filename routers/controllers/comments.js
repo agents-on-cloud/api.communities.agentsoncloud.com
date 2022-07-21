@@ -6,7 +6,7 @@ const uuid = require("uuid");
 
 const crateComment = async (req, res) => {
   try {
-    const { task_id, user_id, user_name, comment, type } = req.body;
+    const { task_id, user_id, user_name, comment, type, user_image } = req.body;
     const comment_id = uuid.v4();
     const newComment = await sequelize.models.Comments.create({
       comment_id,
@@ -15,6 +15,7 @@ const crateComment = async (req, res) => {
       user_name,
       comment,
       type,
+      user_image,
       is_old_record: false,
       is_deleted: false,
     });
@@ -65,7 +66,7 @@ const crateComment = async (req, res) => {
 const getTaskCooments = async (req, res) => {
   try {
     const task_id = req.params.id;
-    const  type = req.params.type;
+    const type = req.params.type;
     const comments = await sequelize.models.Comments.findAll({
       where: {
         task_id,
@@ -139,7 +140,7 @@ const updateComment = async (req, res) => {
 
 const addReplay = async (req, res) => {
   try {
-    const { comment_id, user_id, user_name, comment } = req.body;
+    const { comment_id, user_id, user_name, comment, user_image } = req.body;
     const replay_id = uuid.v4();
     const response = await sequelize.models.CommentsReplay.create({
       replay_id,
@@ -147,6 +148,7 @@ const addReplay = async (req, res) => {
       user_name,
       comment,
       comment_id,
+      user_image,
       is_deleted: false,
     });
     res.status(201).json(response);

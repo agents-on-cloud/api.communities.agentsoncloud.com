@@ -4,7 +4,7 @@ const app = express();
 const cors = require("cors");
 // require("./db/db");
 const { sequelize } = require("./models/index");
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync({ alter: true }).then(() => {
   console.log("DB successfully");
 });
 app.use(express.json());
