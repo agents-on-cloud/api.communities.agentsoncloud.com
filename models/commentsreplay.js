@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       user_name: DataTypes.STRING,
       comment: DataTypes.STRING,
       comment_id: DataTypes.STRING,
+      user_image: DataTypes.STRING,
       is_deleted: DataTypes.BOOLEAN,
     },
     {

@@ -23,6 +23,9 @@ module.exports = {
       comment: {
         type: Sequelize.STRING,
       },
+      user_image: {
+        type: Sequelize.STRING,
+      },
       type: {
         type: Sequelize.STRING,
       },

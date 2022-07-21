@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       user_id: DataTypes.STRING,
       user_name: DataTypes.STRING,
       comment: DataTypes.STRING,
+      user_image: DataTypes.STRING,
       is_old_record: DataTypes.BOOLEAN,
       is_deleted: DataTypes.BOOLEAN,
     },
